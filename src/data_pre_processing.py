@@ -1,4 +1,5 @@
 # System import
+import os
 import string
 from collections import defaultdict
 
@@ -11,11 +12,12 @@ from tqdm import tqdm
 
 tqdm.pandas
 
-TRAIN_PATH = '/Users/hmao/Documents/cs229-project/train.csv'
+TRAIN_PATH = '../train.csv'
 
 
 def load_data(file_path):
-	return pd.read_csv(file_path)
+	return pd.read_csv(os.path.join(os.path.dirname(os.path.abspath(__file__))
+, file_path))
 
 data = load_data(TRAIN_PATH)
 print(data.shape)
