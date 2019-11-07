@@ -58,7 +58,7 @@ def load_and_clean_data(data_path=TRAIN_PATH):
 
 def build_word_dict(pd_data):
 	word_dict = defaultdict(int)
-    pd_data = load_and_clean_data()
+	pd_data = load_and_clean_data()
 
 	for word in tqdm(pd_data['question_text'].values):
 		word_dict[word] += 1
@@ -67,4 +67,3 @@ def build_word_dict(pd_data):
 
 
 pd_data = load_and_clean_data()
-
