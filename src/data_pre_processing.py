@@ -17,8 +17,8 @@ TRAIN_PATH = '/Users/hmao/Documents/cs229-project/train.csv'
 def load_data(file_path):
 	return pd.read_csv(file_path)
 
-# data = load_data(TRAIN_PATH)
-# print(data.shape)
+data = load_data(TRAIN_PATH)
+print(data.shape)
 
 
 def remove_punctuations(text):
@@ -45,7 +45,9 @@ def remove_stopwords(text):
 # print(remove_stopwords(['I', 'see', 'you', 'a', 'monster']))
 
 def clean_data(pd_data):
-    pd_data['question_text'] = pd_data['question_text'].progress_apply(lambda x: remove_punctuations(x)).progress_apply(lambda x: init_tokenizer().tokenize(x.lower())).progress_apply(lambda x: remove_stopwords(x))
+    pd_data['question_text'] = pd_data['question_text'].apply(lambda x: remove_punctuations(x))
+    pd_data['question_text'] = pd_data['question_text'].apply(lambda x: init_tokenizer().tokenize(x.lower()))
+    pd_data['question_text'] = pd_data['question_text'].apply(lambda x: remove_stopwords(x))
 
     print(pd_data['question_text'].head(15))
 
@@ -66,4 +68,4 @@ def build_word_dict(pd_data):
 	return word_dict
 
 
-pd_data = load_and_clean_data()
+# pd_data = load_and_clean_data()
