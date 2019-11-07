@@ -1,4 +1,4 @@
 embeddings*
-train.csv
+*.csv
 .DS_Store
 *.zip

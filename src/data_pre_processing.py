@@ -11,34 +11,34 @@ from tqdm import tqdm
 
 tqdm.pandas
 
-TRAIN_PATH = '/Users/hmao/Documents/cs229-project/train.csv'
+TRAIN_PATH = '../train.csv/train.csv'
 
 
 def load_data(file_path):
-	return pd.read_csv(file_path)
+    return pd.read_csv(file_path)
 
 # data = load_data(TRAIN_PATH)
 # print(data.shape)
 
 
 def remove_punctuations(text):
-	return ''.join([t for t in text if t not in string.punctuation])
+    return ''.join([t for t in text if t not in string.punctuation])
 
 # print(remove_punctuations('ab#//#adfaacd# adf #/a'))
 
 
 def init_tokenizer():
-	return RegexpTokenizer(r'\w+')
+    return RegexpTokenizer(r'\w+')
 
 
 def remove_stopwords(text):
     """
-		Make sure to run:
-			```
-			import nltk
-			nltk.download()
-			```
-		in the virtual venv.
+        Make sure to run:
+            ```
+            import nltk
+            nltk.download()
+            ```
+        in the virtual venv.
     """
     return [t for t in text if t not in stopwords.words('english')]
 
@@ -51,19 +51,19 @@ def clean_data(pd_data):
 
 
 def load_and_clean_data(data_path=TRAIN_PATH):
-	pd_data = load_data(data_path)
-	clean_data(pd_data)
-	return pd_data
+    pd_data = load_data(data_path)
+    clean_data(pd_data)
+    return pd_data
 
 
 def build_word_dict(pd_data):
-	word_dict = defaultdict(int)
+    word_dict = defaultdict(int)
     pd_data = load_and_clean_data()
+    
+    for word in tqdm(pd_data['question_text'].values):
+        word_dict[word] += 1
 
-	for word in tqdm(pd_data['question_text'].values):
-		word_dict[word] += 1
-
-	return word_dict
+    return word_dict
 
 
 pd_data = load_and_clean_data()
