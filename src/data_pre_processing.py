@@ -1,4 +1,5 @@
 # System import
+import os
 import string
 from collections import defaultdict
 
@@ -11,14 +12,15 @@ from tqdm import tqdm
 
 tqdm.pandas
 
-TRAIN_PATH = '../train.csv/train.csv'
+TRAIN_PATH = '../train.csv'
 
 
 def load_data(file_path):
-    return pd.read_csv(file_path)
+	return pd.read_csv(os.path.join(os.path.dirname(os.path.abspath(__file__))
+, file_path))
 
-# data = load_data(TRAIN_PATH)
-# print(data.shape)
+data = load_data(TRAIN_PATH)
+print(data.shape)
 
 
 def remove_punctuations(text):
@@ -45,7 +47,9 @@ def remove_stopwords(text):
 # print(remove_stopwords(['I', 'see', 'you', 'a', 'monster']))
 
 def clean_data(pd_data):
-    pd_data['question_text'] = pd_data['question_text'].progress_apply(lambda x: remove_punctuations(x)).progress_apply(lambda x: init_tokenizer().tokenize(x.lower())).progress_apply(lambda x: remove_stopwords(x))
+    pd_data['question_text'] = pd_data['question_text'].apply(lambda x: remove_punctuations(x))
+    pd_data['question_text'] = pd_data['question_text'].apply(lambda x: init_tokenizer().tokenize(x.lower()))
+    pd_data['question_text'] = pd_data['question_text'].apply(lambda x: remove_stopwords(x))
 
     print(pd_data['question_text'].head(15))
 
@@ -62,9 +66,8 @@ def build_word_dict(pd_data):
     
     for word in tqdm(pd_data['question_text'].values):
         word_dict[word] += 1
-
+        
     return word_dict
 
 
-pd_data = load_and_clean_data()
-
+# pd_data = load_and_clean_data()

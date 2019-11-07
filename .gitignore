@@ -2,3 +2,4 @@ embeddings*
 *.csv
 .DS_Store
 *.zip
+project_venv/*
