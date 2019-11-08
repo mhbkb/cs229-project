@@ -14,6 +14,7 @@ from tqdm import tqdm
 
 tqdm.pandas()
 
+# TRAIN_PATH = '../train_small.csv'
 TRAIN_PATH = '../train_shuffle1.csv'
 
 
@@ -68,7 +69,7 @@ def clean_data(pd_data, opt_punctuation=True, opt_tokenize=True, opt_remove_stop
 	if opt_remove_stopwords:
 		# Removing stopwords takes about 30 mins in Hao's machine.
 		print('Removing stopwords...')
-		pd_data['question_text'] = pd_data['question_text'].apply(lambda x: remove_stopwords(x))
+		pd_data['question_text'] = pd_data['question_text'].apply(lambda x: remove_stopwords(x.split(' ')))
 		print(pd_data['question_text'].head(15))
 
 	if opt_stemming:
@@ -98,9 +99,9 @@ def load_and_clean_data(data_path=TRAIN_PATH,
 
 
 # pd_data = load_and_clean_data(output_file='preprocess_without_punctuation_{}.csv', opt_punctuation=False)
-# pd_data = load_and_clean_data(output_file='preprocess_without_punctuation_{}.csv', opt_tokenize=False)
+pd_data = load_and_clean_data(output_file='preprocess_without_tokenize_{}.csv', opt_tokenize=True)
 # pd_data = load_and_clean_data(output_file='preprocess_without_removing_stopwords_{}.csv', opt_remove_stopwords=False)
-pd_data = load_and_clean_data(output_file='preprocess_without_stem_{}.csv', opt_stemming=False)
+# pd_data = load_and_clean_data(output_file='preprocess_without_stem_{}.csv', opt_stemming=False)
 # pd_data = load_and_clean_data()
 
 
