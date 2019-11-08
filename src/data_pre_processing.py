@@ -54,24 +54,24 @@ def init_stemmer():
 # print(init_stemmer().stem('I am fishing'))
 
 
-def clean_data(pd_data, remove_punctuations=True, tokenize=True, remove_stopwords=True, stemming=True):
-	if remove_punctuations:
+def clean_data(pd_data, opt_punctuation=True, opt_tokenize=True, opt_remove_stopwords=True, opt_stemming=True):
+	if opt_punctuation:
 		print('Running remove_punctuations...')
 		pd_data['question_text'] = pd_data['question_text'].apply(lambda x: remove_punctuations(x))
 		print(pd_data['question_text'].head(15))
 
-	if tokenize:
+	if opt_tokenize:
 		print('Running tokenize...')
 		pd_data['question_text'] = pd_data['question_text'].apply(lambda x: init_tokenizer().tokenize(x.lower()))
 		print(pd_data['question_text'].head(15))
 
-	if remove_stopwords:
+	if opt_remove_stopwords:
 		# Removing stopwords takes about 30 mins in Hao's machine.
 		print('Removing stopwords...')
 		pd_data['question_text'] = pd_data['question_text'].apply(lambda x: remove_stopwords(x))
 		print(pd_data['question_text'].head(15))
 
-	if stemming:
+	if opt_stemming:
 		print('Stemming...')
 		pd_data['question_text'] = pd_data['question_text'].apply(lambda x: init_stemmer().stem(x))
 		print(pd_data['question_text'].head(15))
@@ -81,12 +81,12 @@ def clean_data(pd_data, remove_punctuations=True, tokenize=True, remove_stopword
 
 def load_and_clean_data(data_path=TRAIN_PATH, 
 						output_file='preprocess_{}.csv', 
-						remove_punctuations=True, 
-						tokenize=True,
-						remove_stopwords=True,
-						stemming=True):
+						opt_punctuation=True, 
+						opt_tokenize=True,
+						opt_remove_stopwords=True,
+						opt_stemming=True):
 	pd_data = load_data(data_path)
-	clean_data(pd_data, remove_punctuations, tokenize, remove_stopwords, stemming)
+	clean_data(pd_data, opt_punctuation, opt_tokenize, opt_remove_stopwords, opt_stemming)
 
 	# Since it may take some time to preprocess data, so let's save the pd_data to a file.
 	if output_file:
@@ -97,6 +97,13 @@ def load_and_clean_data(data_path=TRAIN_PATH,
 	return pd_data
 
 
+# pd_data = load_and_clean_data(output_file='preprocess_without_punctuation_{}.csv', opt_punctuation=False)
+# pd_data = load_and_clean_data(output_file='preprocess_without_punctuation_{}.csv', opt_tokenize=False)
+# pd_data = load_and_clean_data()
+
+
+
+
 # def build_word_dict(pd_data):
 # 	word_dict = defaultdict(int)
 # 	pd_data = load_and_clean_data()
@@ -105,5 +112,3 @@ def load_and_clean_data(data_path=TRAIN_PATH,
 # 		word_dict[word] += 1
 		
 # 	return word_dict
-
-# pd_data = load_and_clean_data()

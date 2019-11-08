@@ -10,6 +10,7 @@ from sklearn.model_selection import train_test_split
 # Internal import
 from data_pre_processing import load_data
 
+# TRAIN_PATH = 'preprocess_without_punctuation.csv'
 TRAIN_PATH = 'preprocess_all.csv'
 
 
@@ -32,4 +33,5 @@ def fit_and_predict(train_data, test_data, train_label, test_label):
 if __name__ == "__main__":
 	score = fit_and_predict(*prepare_data())
 	print(score)
+	# 0.9506938463010814 :)
 	# 0.9504986123073978 :)
