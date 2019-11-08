@@ -62,7 +62,7 @@ def clean_data(pd_data, opt_punctuation=True, opt_tokenize=True, opt_remove_stop
 
 	if opt_tokenize:
 		print('Running tokenize...')
-		pd_data['question_text'] = pd_data['question_text'].apply(lambda x: init_tokenizer().tokenize(x.lower()))
+		pd_data['question_text'] = pd_data['question_text'].apply(lambda x: ' '.join(init_tokenizer().tokenize(x.lower())))
 		print(pd_data['question_text'].head(15))
 
 	if opt_remove_stopwords:
@@ -99,6 +99,8 @@ def load_and_clean_data(data_path=TRAIN_PATH,
 
 # pd_data = load_and_clean_data(output_file='preprocess_without_punctuation_{}.csv', opt_punctuation=False)
 # pd_data = load_and_clean_data(output_file='preprocess_without_punctuation_{}.csv', opt_tokenize=False)
+# pd_data = load_and_clean_data(output_file='preprocess_without_removing_stopwords_{}.csv', opt_remove_stopwords=False)
+pd_data = load_and_clean_data(output_file='preprocess_without_stem_{}.csv', opt_stemming=False)
 # pd_data = load_and_clean_data()
 
 

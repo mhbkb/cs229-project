@@ -5,3 +5,4 @@ embeddings*
 project_venv/
 *.pyc
 /project_venv/*
+src/nohup.out
