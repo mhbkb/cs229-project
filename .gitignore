@@ -4,3 +4,4 @@ embeddings*
 *.zip
 project_venv/
 *.pyc
+/project_venv/*

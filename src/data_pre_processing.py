@@ -106,4 +106,4 @@ def load_and_clean_data(data_path=TRAIN_PATH,
 		
 # 	return word_dict
 
-pd_data = load_and_clean_data()
+# pd_data = load_and_clean_data()
