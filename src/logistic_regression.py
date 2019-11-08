@@ -10,11 +10,27 @@ from sklearn.model_selection import train_test_split
 # Internal import
 from data_pre_processing import load_data
 
-# TRAIN_PATH = 'preprocess_without_punctuation.csv'
+
+# dev score is: 0.9506938463010814
+# TRAIN_PATH = 'preprocess_without_punctuation.csv'  
+
+# dev score is: 0.9521179060197148
 # TRAIN_PATH = 'preprocess_without_tokenize.csv'
-# TRAIN_PATH = 'preprocess_without_removing_stopwords.csv'
-# TRAIN_PATH = 'preprocess_without_stem.csv'
-# TRAIN_PATH = 'preprocess_all.csv'
+
+# dev score is: 0.952619389415255
+# TRAIN_PATH = 'preprocess_without_removing_stopwords.csv' 
+
+# dev score is: 0.9503646281940855
+# TRAIN_PATH = 'preprocess_without_stem.csv'  
+
+# dev score is: 0.952822279643985
+# TRAIN_PATH = 'preprocess_just_stem.csv'
+
+# dev score is: 0.9530175136376686
+TRAIN_PATH = 'preprocess_tokenize_and_stem.csv'
+
+# dev score is: 0.9504986123073978
+# TRAIN_PATH = 'preprocess_all.csv' 
 
 
 def prepare_data():
@@ -35,9 +51,4 @@ def fit_and_predict(train_data, test_data, train_label, test_label):
 
 if __name__ == "__main__":
 	score = fit_and_predict(*prepare_data())
-	print(score)
-	# 0.9506938463010814
-	# 0.9504986123073978
-	# 0.952619389415255
-	# 0.9503646281940855
-	# 0.9504986123073978
+	print(f'dev score is: {score}')

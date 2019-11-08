@@ -100,9 +100,11 @@ def load_and_clean_data(data_path=TRAIN_PATH,
 
 
 # pd_data = load_and_clean_data(output_file='preprocess_without_punctuation_{}.csv', opt_punctuation=False)
-# pd_data = load_and_clean_data(output_file='preprocess_without_tokenize_{}.csv', opt_tokenize=True)
+# pd_data = load_and_clean_data(output_file='preprocess_without_tokenize_{}.csv', opt_tokenize=False)
 # pd_data = load_and_clean_data(output_file='preprocess_without_removing_stopwords_{}.csv', opt_remove_stopwords=False)
 # pd_data = load_and_clean_data(output_file='preprocess_without_stem_{}.csv', opt_stemming=False)
+# pd_data = load_and_clean_data(output_file='preprocess_just_stem_{}.csv', opt_punctuation=False, opt_tokenize=False, opt_remove_stopwords=False)
+# pd_data = load_and_clean_data(output_file='preprocess_tokenize_and_stem_{}.csv', opt_punctuation=False, opt_remove_stopwords=False)
 # pd_data = load_and_clean_data()
 
 
