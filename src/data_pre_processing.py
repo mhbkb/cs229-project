@@ -75,7 +75,6 @@ def clean_data(pd_data, opt_punctuation=True, opt_tokenize=True, opt_remove_stop
 
 	if opt_stemming:
 		print('Stemming...')
-		# import pdb; pdb.set_trace()
 		stemmer = init_stemmer()
 		pd_data['question_text'] = pd_data['question_text'].apply(lambda x: ' '.join([stemmer.stem(w) for w in x.split(' ')]))
 		print(pd_data['question_text'].head(15))
