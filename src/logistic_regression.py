@@ -4,7 +4,7 @@ import os
 # External import
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, f1_score, roc_auc_score, roc_curve
+from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, roc_auc_score, roc_curve
 from sklearn.model_selection import train_test_split
 
 # Internal import
@@ -80,6 +80,7 @@ def fit_and_predict(load_test_data,
 
 		print(f'accuracy is: {accuracy_score(test_label_OR_test_data, prediction)}')
 		print(f'f1 score is: {f1_score(test_label_OR_test_data, prediction)}')
+		print(f'confusion_matrix score is: {confusion_matrix(test_label_OR_test_data, prediction)}')
 
 
 if __name__ == "__main__":
