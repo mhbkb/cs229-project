@@ -4,3 +4,5 @@ tqdm==4.37.0
 nltk==3.4.5
 scikit-learn==0.21.3
 matplotlib
+xgboost
+torch

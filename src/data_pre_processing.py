@@ -53,8 +53,7 @@ def remove_stopwords(words):
 def init_stemmer():
 	return SnowballStemmer('english')
 
-#print(init_stemmer().stem('I am fishing'))
-
+# print(init_stemmer().stem('I am fishing?'))
 
 def clean_data(pd_data, opt_punctuation=True, opt_tokenize=True, opt_remove_stopwords=True, opt_stemming=True):
 	if opt_punctuation:
@@ -75,7 +74,8 @@ def clean_data(pd_data, opt_punctuation=True, opt_tokenize=True, opt_remove_stop
 
 	if opt_stemming:
 		print('Stemming...')
-		pd_data['question_text'] = pd_data['question_text'].apply(lambda x: init_stemmer().stem(x))
+		stemmer = init_stemmer()
+		pd_data['question_text'] = pd_data['question_text'].apply(lambda x: ' '.join([stemmer.stem(w) for w in x.split(' ')]))
 		print(pd_data['question_text'].head(15))
 
 	#print(pd_data['question_text'].head(15))
