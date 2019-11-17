@@ -15,8 +15,8 @@ from tqdm import tqdm
 tqdm.pandas()
 
 # Always run with train_small.csv to how outputs look like when modifying data pre-processing.
-# TRAIN_PATH = '../train_small.csv'
-TRAIN_PATH = '../train_shuffle1.csv'
+TRAIN_PATH = 'train_small.csv'
+#TRAIN_PATH = '../train_shuffle1.csv'
 
 
 def load_data(file_path):
@@ -53,7 +53,7 @@ def remove_stopwords(words):
 def init_stemmer():
 	return SnowballStemmer('english')
 
-# print(init_stemmer().stem('I am fishing'))
+#print(init_stemmer().stem('I am fishing'))
 
 
 def clean_data(pd_data, opt_punctuation=True, opt_tokenize=True, opt_remove_stopwords=True, opt_stemming=True):
@@ -78,7 +78,7 @@ def clean_data(pd_data, opt_punctuation=True, opt_tokenize=True, opt_remove_stop
 		pd_data['question_text'] = pd_data['question_text'].apply(lambda x: init_stemmer().stem(x))
 		print(pd_data['question_text'].head(15))
 
-	print(pd_data['question_text'].head(15))
+	#print(pd_data['question_text'].head(15))
 
 
 def load_and_clean_data(data_path=TRAIN_PATH, 
@@ -107,6 +107,14 @@ def load_and_clean_data(data_path=TRAIN_PATH,
 # pd_data = load_and_clean_data(output_file='preprocess_tokenize_and_stem_{}.csv', opt_punctuation=False, opt_remove_stopwords=False)
 # pd_data = load_and_clean_data()
 
+#print("just punctuation")
+#load_and_clean_data(output_file='preprocess_only_punctuation_{}.csv', opt_punctuation=True, opt_tokenize=False, opt_remove_stopwords=False, opt_stemming=False)
+#print("just tokenize")
+#load_and_clean_data(output_file='preprocess_only_tokenize_{}.csv', opt_punctuation=False, opt_tokenize=True, opt_remove_stopwords=False, opt_stemming=False)
+#print("just remove stop")
+#load_and_clean_data(output_file='preprocess_only_stop_{}.csv', opt_punctuation=False, opt_tokenize=False, opt_remove_stopwords=True, opt_stemming=False)
+#print("just stem")
+#load_and_clean_data(output_file='preprocess_only_stem_{}.csv', opt_punctuation=False, opt_tokenize=False, opt_remove_stopwords=False, opt_stemming=True)
 
 
 
