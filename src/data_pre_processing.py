@@ -163,16 +163,3 @@ def load_and_clean_data(data_path=TRAIN_PATH,
 #load_and_clean_data(output_file='preprocess_only_stop_{}.csv', opt_punctuation=False, opt_tokenize=False, opt_remove_stopwords=True, opt_stemming=False)
 #print("just stem")
 #load_and_clean_data(output_file='preprocess_only_stem_{}.csv', opt_punctuation=False, opt_tokenize=False, opt_remove_stopwords=False, opt_stemming=True)
-
-# Data preparing for CNN.
-@timer
-def build_word_dict():
-	word_dict = defaultdict(int)
-	pd_data = load_and_clean_data(opt_remove_stopwords=False, opt_stemming=False)
-	
-	for word in tqdm(pd_data['question_text'].values, disable=False):
-		word_dict[word] += 1
-		
-	return word_dict
-
-# a = build_word_dict()
