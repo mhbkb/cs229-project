@@ -6,3 +6,5 @@ scikit-learn==0.21.3
 matplotlib
 xgboost
 torch
+psutil
+keras==2.3.1
