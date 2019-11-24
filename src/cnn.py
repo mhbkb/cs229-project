@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 # Internal import
 from data_pre_processing import build_word_dict, load_data
 from utils import timer
-from cnn_models import *
+from cnn_model import *
 
 TRAIN_PATH = 'preprocess.csv'
 TEST_PATH = 'test.csv'
@@ -25,7 +25,7 @@ def get_data():
 
 def prepare_data():
 	word_dict = build_word_dict()
-	embeddings = EmbeddingLayer(len(word_dict))
+	embeddings = EmbeddingLayer(word_dict)
 
 	return embeddings
 

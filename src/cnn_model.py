@@ -16,7 +16,7 @@ class EmbeddingLayer(nn.Module):
         self.word_count = word_count
         self.num_words = len(word_count)
         
-        embedding_weights = load_all_embeddings(word_count, num_words)
+        embedding_weights = self.load_all_embeddings(word_count, self.num_words)
             
         self.original_embedding_weights = embedding_weights
         self.embeddings = nn.Embedding(num_words + 1, embedding_size, padding_idx=0)
