@@ -23,6 +23,26 @@ def get_data():
 	return load_data(TRAIN_PATH)
 
 
+@timer
+def build_word_dict(pd_data):
+	for word in tqdm(pd_data['question_text'].values, disable=False):
+		word_dict[word] += 1
+		
+	return word_dict
+
+
+def add_features(pd):
+    # TODO: Come up with more features.
+    pd['lower_question_text'] = pd['question_text'].apply(lambda x: x.lower())
+    pd['total_length'] = pd['question_text'].apply(len)
+    pd['capitals'] = pd['question_text'].apply(lambda comment: sum(1 for c in comment if c.isupper()))
+    pd['caps_vs_length'] = pd.apply(lambda row: float(row['capitals'])/float(row['total_length']), axis=1)
+    pd['num_words'] = pd['question_text'].str.count('\S+')
+    pd['num_unique_words'] = pd['question_text'].apply(lambda comment: len(set(comment.split())))
+    pd['words_vs_unique'] = pd['num_unique_words'] / pd['num_words'] 
+    return pd[['caps_vs_length', 'words_vs_unique', 'num_words']]
+
+
 def prepare_data():
 	word_dict = build_word_dict()
 	embeddings = EmbeddingLayer(len(word_dict))
@@ -37,8 +57,6 @@ def fit_and_predict(load_test_data,
 					train_label, 
 					test_label_OR_test_data,
 					if_plt_roc):
-	
-
 	model.fit(train_data, train_label)
 
 	prediction = model.predict(test_feature_matrics)
@@ -56,6 +74,9 @@ def fit_and_predict(load_test_data,
 		print(f'accuracy is: {accuracy_score(test_label_OR_test_data, prediction)}')
 		print(f'f1 score is: {f1_score(test_label_OR_test_data, prediction)}')
 		print(f'confusion_matrix score is: {confusion_matrix(test_label_OR_test_data, prediction)}')
+
+
+
 
 
 if __name__ == "__main__":
