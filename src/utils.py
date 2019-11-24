@@ -34,10 +34,10 @@ def load_embeddings(file_path, word_count, num_words):
 			embeddings_index[values[0]] = np.asarray(values[1:], dtype='float32')
 
 	all_embs = np.stack(embeddings_index.values())
-    embedding_mean, embedding_std = all_embs.mean(), all_embs.std()
-    embedding_size = all_embs.shape[1]
+	embedding_mean, embedding_std = all_embs.mean(), all_embs.std()
+	embedding_size = all_embs.shape[1]
 
-    embedding_matrix = np.random.normal(embedding_mean, embedding_std, (num_words + 1, embedding_size))
+	embedding_matrix = np.random.normal(embedding_mean, embedding_std, (num_words + 1, embedding_size))
 
 	for idx, word in tqdm(enumerate(word_count)):
 		embedding_vect = embeddings_index[word]

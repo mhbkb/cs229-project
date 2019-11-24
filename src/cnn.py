@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 # Internal import
 from data_pre_processing import build_word_dict, load_data
 from utils import timer
-from cnn_models import *
+from cnn_model import *
 
 TRAIN_PATH = 'preprocess.csv'
 TEST_PATH = 'test.csv'
@@ -56,7 +56,9 @@ def prepare_data():
     train_features = ss.transform(train_features)
     test_features = ss.transform(test_features)
 
-	return train_data, test_data, train_label, test_label, train_features, test_features
+    word_dict = build_word_dict(pd_data)
+
+	return train_data, test_data, train_label, test_label, train_features, test_features, word_dict
 
 
 @timer
@@ -67,8 +69,10 @@ def fit_and_predict(load_test_data,
 					test_label,
 					train_features,
 					test_features,
-					embedding_data,
+					word_dict,
 					if_plt_roc):
+	embedding_data = EmbeddingLayer(len(word_dict))
+
 	cnn_model = CNNModel(len(embedding_data), hidden_size_1=1, num_layers_1=1, hidden_size_2=1, 
              			 num_layers_2=1, dense_size_1=1*2*4+3, dense_size_2=0, 1, embedding_data)
 
@@ -145,8 +149,7 @@ def fit_and_predict(load_test_data,
 if __name__ == "__main__":
 	load_test_data = False
 
-	train_data, test_data, train_label, test_label, train_features, test_features = prepare_data()
-	embedding_data = EmbeddingLayer()
+	train_data, test_data, train_label, test_label, train_features, test_features, word_dict = prepare_data()
 
 	fit_and_predict(load_test_data, 
 					train_data, 
@@ -155,5 +158,5 @@ if __name__ == "__main__":
 					test_label,
 					train_features,
 					test_features,
-					embedding_data,
+					word_dict,
 					True)
