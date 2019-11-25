@@ -16,8 +16,8 @@ from utils import timer
 tqdm.pandas()
 
 # Always run with train_small.csv to how outputs look like when modifying data pre-processing.
-#TRAIN_PATH = 'train_small.csv'
-TRAIN_PATH = 'train_shuffle1.csv'
+TRAIN_PATH = 'train_small.csv'
+#TRAIN_PATH = 'train_shuffle1.csv'
 
 # https://www.kaggle.com/c/quora-insincere-questions-classification/discussion/74518#latest-456642
 puncts=['☹', 'Ź', 'Ż', 'ἰ', 'ή', 'Š', '＞', 'ξ','ฉ', 'ั', 'น', 'จ', 'ะ', 'ท', 'ำ', 'ใ', 'ห', '้', 'ด', 'ี', 
@@ -163,3 +163,5 @@ def load_and_clean_data(data_path=TRAIN_PATH,
 #load_and_clean_data(output_file='preprocess_only_stop_{}.csv', opt_punctuation=False, opt_tokenize=False, opt_remove_stopwords=True, opt_stemming=False)
 #print("just stem")
 #load_and_clean_data(output_file='preprocess_only_stem_{}.csv', opt_punctuation=False, opt_tokenize=False, opt_remove_stopwords=False, opt_stemming=True)
+
+# pd_data = load_and_clean_data(opt_remove_stopwords=False, opt_stemming=False)

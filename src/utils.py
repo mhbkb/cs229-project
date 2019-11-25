@@ -22,9 +22,9 @@ def timer(fn_to_measture):
 		return res
 
 	return func
-    
+	
 
-def load_embeddings(file_path, word_count, num_words):
+def load_embeddings(file_path, word_index, num_words):
 	print(f'load_embeddings: {file_path}')
 	embeddings_index = {}
 
@@ -37,12 +37,12 @@ def load_embeddings(file_path, word_count, num_words):
 	embedding_mean, embedding_std = all_embs.mean(), all_embs.std()
 	embedding_size = all_embs.shape[1]
 
-	embedding_matrix = np.random.normal(embedding_mean, embedding_std, (num_words + 1, embedding_size))
+	embedding_matrix = np.random.normal(embedding_mean, embedding_std, (num_words, embedding_size))
 
-	for idx, word in tqdm(enumerate(word_count)):
-		embedding_vect = embeddings_index[word]
+	for word in tqdm(word_index):
+		if word not in embeddings_index:
+			continue
 
-		if embedding_vect is not None:
-			embedding_matrix[idx] = embedding_vect
+		embedding_matrix[word_index[word]] = embeddings_index[word]
 
 	return embedding_matrix
