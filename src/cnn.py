@@ -6,6 +6,7 @@ import torch
 import psutil
 import numpy as np
 from keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, roc_auc_score, roc_curve
@@ -84,9 +85,13 @@ def fit_and_predict(load_test_data,
 	train_data = tokenizer.texts_to_sequences(train_data)
 	test_data = tokenizer.texts_to_sequences(test_data)
 
+	# Pad the train and test data. This is important otherwise the dimention of the inputs won't match!
+	train_data = pad_sequences(train_data, maxlen=64)
+	test_data = pad_sequences(test_data, maxlen=64)
+	# import pdb; pdb.set_trace()
 	embedding_data = EmbeddingLayer(tokenizer.word_index, word_count)
-	cnn_model = CNNModel(embedding_size=300, hidden_size_1=1, num_layers_1=1, hidden_size_2=1, 
-						 num_layers_2=1, dense_size_1=1*2*4+3, dense_size_2=0, output_size=1, embeddings=embedding_data)
+	cnn_model = CNNModel(embedding_size=300, hidden_size_1=96, num_layers_1=1, hidden_size_2=96, 
+						 num_layers_2=1, dense_size_1=388, dense_size_2=24, output_size=1, embeddings=embedding_data)
 
 	if CUDA:
 		cnn_model.cuda()
@@ -110,8 +115,11 @@ def fit_and_predict(load_test_data,
 	test = torch.utils.data.TensorDataset(test_data_cuda, test_features_cuda)
 	test_loader = torch.utils.data.DataLoader(test, batch_size=batch_size, shuffle=False)
 
+	train_label_cuda = torch.tensor(train_label, dtype=torch.float).cuda() if CUDA else torch.tensor(train_label, dtype=torch.float)
+	test_label_cuda = torch.tensor(test_label.values(), dtype=torch.float).cuda() if CUDA else torch.tensor(test_label.values(), dtype=torch.float)
+
 	optimizer = torch.optim.SGD(cnn_model.parameters(), lr=0.01)
-	criterion = nn.CrossEntropyLoss()
+	criterion = nn.BCEWithLogitsLoss()
 
 	iter = 0
 
@@ -121,14 +129,16 @@ def fit_and_predict(load_test_data,
 		for my_train_data, my_train_features in train_loader:
 			optimizer.zero_grad()
 			outputs = cnn_model(my_train_data, my_train_features)
-			loss = criterion(outputs, train_label)
+			# import pdb; pdb.set_trace()
+			loss = criterion(outputs[:, 0], train_label_cuda)
 			loss.backward()
 			optimizer.step()
 
 			iter += 1
 
 			if iter % 500 == 0:
-				# Calculate Accuracy         
+				# Calculate Accuracy  
+				# import pdb; pdb.set_trace()       
 				correct = 0
 				total = 0
 				# Iterate through test dataset
@@ -137,7 +147,7 @@ def fit_and_predict(load_test_data,
 					_, predicted = torch.max(outputs.data, 1)
 
 					# Total number of labels
-					total += test_label.size(0)
+					total += len(test_label)
 					correct += (predicted == test_label).sum()
 
 				accuracy = 1.0 * 100 * correct / total

@@ -111,14 +111,14 @@ class CNNModel(nn.Module):
 		self.lstm = LSTMLayer(input_size=embedding_size,
 							  hidden_size=hidden_size_1,
 							  num_layers=num_layers_1)
-		self.gru = GRULayer(input_size=hidden_size_1*2,
+		self.gru = GRULayer(input_size=hidden_size_1,
 							hidden_size=hidden_size_2,
 							num_layers=num_layers_2)
 		
 		self.linear = nn.Linear(dense_size_1, dense_size_2)
 		self.batch_norm = torch.nn.BatchNorm1d(dense_size_2)
 		self.relu = nn.ReLU()
-		self.out = nn.Linear(dense_size_1, output_size)
+		self.out = nn.Linear(dense_size_2, output_size)
 		
 	def forward(self, x, features):
 		h_embedding = self.embeddings(x)
@@ -127,8 +127,12 @@ class CNNModel(nn.Module):
 		
 		avg_pool = torch.mean(o_gru, 1)
 		max_pool, _ = torch.max(o_gru, 1)
+		# import pdb; pdb.set_trace()
 
-		concat = torch.cat([h_lstm, h_gru, avg_pool, max_pool, features], 1)
+		h_lstm = torch.cat(h_lstm.split(1, 0), -1).squeeze(0)
+		h_gru = torch.cat(h_gru.split(1, 0), -1).squeeze(0)
+
+		concat = torch.cat((h_lstm, h_gru, avg_pool, max_pool, features), 1)
 		concat = self.linear(concat)
 		concat = self.batch_norm(concat)
 		concat = self.relu(concat)
