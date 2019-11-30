@@ -103,6 +103,7 @@ def fit_and_predict(load_test_data,
 	batch_size = 100
 	n_iters = 3000
 	num_epochs = int(1.0 * n_iters / (1.0 * len(train_data) / batch_size))
+	print(f'Num of epochs: {num_epochs}')
 
 	train_data_cuda = torch.tensor(train_data, dtype=torch.long).cuda() if CUDA else torch.tensor(train_data, dtype=torch.long)
 	train_features_cuda = torch.tensor(train_features, dtype=torch.float).cuda() if CUDA else torch.tensor(train_features, dtype=torch.float)
@@ -116,14 +117,19 @@ def fit_and_predict(load_test_data,
 	test_loader = torch.utils.data.DataLoader(test, batch_size=batch_size, shuffle=False)
 
 	train_label_cuda = torch.tensor(train_label, dtype=torch.float).cuda() if CUDA else torch.tensor(train_label, dtype=torch.float)
-	test_label_cuda = torch.tensor(test_label.values(), dtype=torch.float).cuda() if CUDA else torch.tensor(test_label.values(), dtype=torch.float)
+	# test_label_cuda = torch.tensor(test_label, dtype=torch.float).cuda() if CUDA else torch.tensor(test_label, dtype=torch.float)
 
 	optimizer = torch.optim.SGD(cnn_model.parameters(), lr=0.01)
 	criterion = nn.BCEWithLogitsLoss()
 
 	iter = 0
+	should_stop = False
+	previous_loss = None
 
 	for epoch in range(num_epochs):
+		if should_stop:
+			break
+
 		print(f'Start epoch: {epoch}')
 
 		for my_train_data, my_train_features in train_loader:
@@ -136,7 +142,7 @@ def fit_and_predict(load_test_data,
 
 			iter += 1
 
-			if iter % 500 == 0:
+			if iter % 100 == 0:
 				# Calculate Accuracy  
 				# import pdb; pdb.set_trace()       
 				correct = 0
@@ -148,12 +154,19 @@ def fit_and_predict(load_test_data,
 
 					# Total number of labels
 					total += len(test_label)
-					correct += (predicted == test_label).sum()
+					# import pdb; pdb.set_trace()
+					correct += (predicted.numpy() == test_label).sum()
 
 				accuracy = 1.0 * 100 * correct / total
 
+				if abs(loss.item() - previous_loss) < 1e-3:
+					print(f'Converged previous_loss:{previous_loss}, stopping...')
+					should_stop = True
+
 				# Print Loss
 				print('Iteration: {}. Loss: {}. Accuracy: {}'.format(iter, loss.item(), accuracy))
+
+			previous_loss = loss.item()
 					
 			
 	# if load_test_data:
