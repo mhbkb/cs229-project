@@ -24,7 +24,9 @@ TEST_PATH = 'test.csv'
 
 CUDA = True if torch.cuda.is_available() else False
 
-print(psutil.cpu_count())
+
+print(f'CUDA available: {CUDA}')
+print(f'Total cpus: {psutil.cpu_count()}')
 
 def get_data():
 	return load_data(TRAIN_PATH)
@@ -43,6 +45,7 @@ def build_word_dict(pd_data):
 
 def add_features(pd):
 	# TODO: Come up with more features.
+	# import pdb; pdb.set_trace()
 	pd['total_length'] = pd['question_text'].apply(len)
 	pd['capitals'] = pd['question_text'].apply(lambda x: sum(1 for c in x if c.isupper()))
 	pd['caps_ratio'] = pd.apply(lambda x: float(x['capitals'])/float(x['total_length']), axis=1)
