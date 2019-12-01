@@ -105,9 +105,9 @@ def fit_and_predict(load_test_data,
 	# https://github.com/yunjey/pytorch-tutorial/blob/master/tutorials/02-intermediate/recurrent_neural_network/main.py
 	batch_size = 100
 	n_iters = 3000
-	num_epochs = int(1.0 * n_iters / (1.0 * len(train_data) / batch_size))
+	num_epochs = 8
 	print(f'Num of epochs: {num_epochs}')
-
+	# import pdb; pdb.set_trace()
 	train_data_cuda = torch.tensor(train_data, dtype=torch.long).cuda() if CUDA else torch.tensor(train_data, dtype=torch.long)
 	train_features_cuda = torch.tensor(train_features, dtype=torch.float).cuda() if CUDA else torch.tensor(train_features, dtype=torch.float)
 	test_data_cuda = torch.tensor(test_data, dtype=torch.long).cuda() if CUDA else torch.tensor(test_data, dtype=torch.long)
