@@ -106,7 +106,11 @@ def fit_and_predict(load_test_data,
     if CUDA:
         cnn_model.cuda()
 
-    print(f'Num of params to train: {len(list(cnn_model.parameters()))}')
+    num_params = 0
+    for params in cnn_model.parameters():
+        if params.requires_grad:
+            num_params += np.prod(params.size())
+    print(f'Num of params to train: {num_params}')
 
     # https://www.deeplearningwizard.com/deep_learning/practical_pytorch/pytorch_lstm_neuralnetwork/
     # https://github.com/yunjey/pytorch-tutorial/blob/master/tutorials/02-intermediate/recurrent_neural_network/main.py
@@ -187,7 +191,8 @@ def fit_and_predict(load_test_data,
                 accuracy = 1.0 * 100 * correct / total
 
                 if abs(loss.item() - previous_loss) < 1e-3:
-                    print(f'Converged previous_loss:{previous_loss}, stopping...')
+                    print(
+                        f'Converged previous_loss:{previous_loss}, stopping...')
                     should_stop = True
 
                 # Print Loss
