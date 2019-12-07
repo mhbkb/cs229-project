@@ -163,7 +163,7 @@ def fit_and_predict(load_test_data,
 	) if CUDA else torch.tensor(test_label.values, dtype=torch.float)
 	test = torch.utils.data.TensorDataset(
 		test_data_cuda, test_features_cuda, test_label_cuda)
-	test_loader = torch.utils.data.DataLoader(test, shuffle=False)
+	test_loader = torch.utils.data.DataLoader(test, batch_size=100000, shuffle=False)
 
 	# test_label_cuda = torch.tensor(test_label, dtype=torch.float).cuda() if CUDA else torch.tensor(test_label, dtype=torch.float)
 
@@ -207,7 +207,7 @@ def fit_and_predict(load_test_data,
 	# import pdb; pdb.set_trace()
 	# Iterate through test dataset
 	for my_test_data, my_test_features, my_test_labels in test_loader:
-		print('Batch size is 1, should just run once.')
+		print('Should just run once.')
 		outputs = cnn_model(my_test_data, my_test_features)
 		_, predicted = torch.max(outputs.data, 1)
 
@@ -220,7 +220,7 @@ def fit_and_predict(load_test_data,
 		else:
 			predicted_label = predicted.numpy()
 			my_test_labels = my_test_labels.numpy()
-
+		import pdb; pdb.set_trace()
 		print(f'accuracy is: {accuracy_score(my_test_labels, predicted_label)}')
 		print(f'f1 score is: {f1_score(my_test_labels, predicted_label)}')
 		print(f'confusion_matrix score is: {confusion_matrix(my_test_labels, predicted_label)}')
