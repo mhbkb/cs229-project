@@ -37,9 +37,9 @@ class EmbeddingLayer(nn.Module):
 		self.embeddings.weight.requires_grad = False
 	
 	def load_all_embeddings(self, word_index, num_words):
-		# Word cover rate in the embedding is: 0.9886104783599089
+		# Word cover rate in the embedding is: 0.8724167059563099
 		glove_embeddings = load_embeddings(GLOVE_PATH, word_index, num_words)
-		# Word cover rate in the embedding is: 0.36218678815489747
+		# Word cover rate in the embedding is: 0.6717114568599717
 		wiki_embeddings = load_embeddings(WIKI_PATH, word_index, num_words)
 		# google_new_embeddings = load_embeddings(GOOGLE_NEWS_PATH, word_index, num_words)
 		# paragram_embeddings = load_embeddings(PARAGRAM_PATH, word_index, num_words)
@@ -61,6 +61,7 @@ class GRULayer(nn.Module):
 		self.gru = nn.GRU(input_size=input_size,
 						  hidden_size=hidden_size,
 						  num_layers=num_layers,
+						  bidirectional=True,
 						  batch_first=True)
 		
 		self.init_hidden()
@@ -86,6 +87,7 @@ class LSTMLayer(nn.Module):
 		self.lstm = nn.LSTM(input_size=input_size,
 							hidden_size=hidden_size,
 							num_layers=num_layers,
+							bidirectional=True,
 							batch_first=True)
 		
 		self.init_hidden()
@@ -113,7 +115,7 @@ class CNNModel(nn.Module):
 		self.lstm = LSTMLayer(input_size=embedding_size,
 							  hidden_size=hidden_size_1,
 							  num_layers=num_layers_1)
-		self.gru = GRULayer(input_size=hidden_size_1,
+		self.gru = GRULayer(input_size=hidden_size_1*2,
 							hidden_size=hidden_size_2,
 							num_layers=num_layers_2)
 		

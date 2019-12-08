@@ -112,7 +112,7 @@ def fit_and_predict(load_test_data,
     # import pdb; pdb.set_trace()
     embedding_data = EmbeddingLayer(tokenizer.word_index, word_count)
     cnn_model = CNNModel(embedding_size=300, hidden_size_1=96, num_layers_1=1, hidden_size_2=96,
-                         num_layers_2=1, dense_size_1=388, dense_size_2=24, output_size=1, embeddings=embedding_data)
+                         num_layers_2=1, dense_size_1=772, dense_size_2=24, output_size=1, embeddings=embedding_data)
 
     if CUDA:
         cnn_model.cuda()
@@ -125,7 +125,8 @@ def fit_and_predict(load_test_data,
 
     # https://www.deeplearningwizard.com/deep_learning/practical_pytorch/pytorch_lstm_neuralnetwork/
     # https://github.com/yunjey/pytorch-tutorial/blob/master/tutorials/02-intermediate/recurrent_neural_network/main.py
-    batch_size = 100
+    batch_size = 256
+    test_bath_size = 1024
     n_iters = 3000
     num_epochs = 20
     print(f'Num of epochs: {num_epochs}')
@@ -164,7 +165,7 @@ def fit_and_predict(load_test_data,
     test = torch.utils.data.TensorDataset(
         test_data_cuda, test_features_cuda, test_label_cuda)
     test_loader = torch.utils.data.DataLoader(
-        test, batch_size=batch_size, shuffle=False)
+        test, batch_size=test_bath_size, shuffle=False)
 
     # test_label_cuda = torch.tensor(test_label, dtype=torch.float).cuda() if CUDA else torch.tensor(test_label, dtype=torch.float)
 
@@ -223,8 +224,7 @@ def fit_and_predict(load_test_data,
                 else:
                     predicted_label = predicted.numpy()
 
-                all_predicted_label[i *
-                                    batch_size: (i+1) * batch_size] = predicted_label
+                all_predicted_label[i * test_bath_size: (i+1) * test_bath_size] = predicted_label
 
             # import pdb; pdb.set_trace()
             print(
