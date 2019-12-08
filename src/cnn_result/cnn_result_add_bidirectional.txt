@@ -1,3 +1,5 @@
+https://towardsdatascience.com/understanding-bidirectional-rnn-in-pytorch-5bd25a5dd66
+
 num of words: 509040
 Num of params to train: 491329
 Num of epochs: 20

@@ -21,6 +21,7 @@ from cnn_model import *
 
 TRAIN_PATH = 'preprocess.csv'
 TEST_PATH = 'test.csv'
+dropout = 0.1
 
 CUDA = True if torch.cuda.is_available() else False
 
@@ -112,7 +113,8 @@ def fit_and_predict(load_test_data,
     # import pdb; pdb.set_trace()
     embedding_data = EmbeddingLayer(tokenizer.word_index, word_count)
     cnn_model = CNNModel(embedding_size=300, hidden_size_1=96, num_layers_1=1, hidden_size_2=96,
-                         num_layers_2=1, dense_size_1=772, dense_size_2=24, output_size=1, embeddings=embedding_data)
+                         num_layers_2=1, dense_size_1=772, dense_size_2=24, output_size=1, 
+                         embeddings=embedding_data, dropout=dropout)
 
     if CUDA:
         cnn_model.cuda()

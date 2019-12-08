@@ -61,7 +61,7 @@ class EmbeddingLayer(nn.Module):
 
 class GRULayer(nn.Module):
     # https://blog.floydhub.com/gru-with-pytorch/
-    def __init__(self, input_size, hidden_size, num_layers):
+    def __init__(self, input_size, hidden_size, num_layers, dropout):
         super().__init__()
         
         self.gru = nn.GRU(input_size=input_size,
@@ -69,7 +69,7 @@ class GRULayer(nn.Module):
                           num_layers=num_layers,
                           bidirectional=True,
                           batch_first=True)
-        
+        self.dropout = nn.Dropout(dropout)
         self.init_hidden()
         
     def init_hidden(self):
@@ -83,11 +83,12 @@ class GRULayer(nn.Module):
                 param.data.fill_(0)
 
     def forward(self, x):
-        return self.gru(x)
+        output, state = self.gru(x)
+        return self.dropout(output), state
 
 
 class LSTMLayer(nn.Module):
-    def __init__(self, input_size, hidden_size, num_layers):
+    def __init__(self, input_size, hidden_size, num_layers, dropout):
         super().__init__()
         
         self.lstm = nn.LSTM(input_size=input_size,
@@ -95,7 +96,7 @@ class LSTMLayer(nn.Module):
                             num_layers=num_layers,
                             bidirectional=True,
                             batch_first=True)
-        
+        self.dropout = nn.Dropout(dropout)
         self.init_hidden()
         
     def init_hidden(self):
@@ -109,26 +110,30 @@ class LSTMLayer(nn.Module):
 
     def forward(self, x):
         lstm_outputs, (lstm_states, _) = self.lstm(x)
-        return lstm_outputs, lstm_states
+        return self.dropout(lstm_outputs), lstm_states
 
 
 class CNNModel(nn.Module):
     def __init__(self, embedding_size, hidden_size_1, num_layers_1, hidden_size_2, 
-                num_layers_2, dense_size_1, dense_size_2, output_size, embeddings):
+                num_layers_2, dense_size_1, dense_size_2, output_size, embeddings, dropout):
         super().__init__()
         
         self.embeddings = embeddings
         self.lstm = LSTMLayer(input_size=embedding_size,
                               hidden_size=hidden_size_1,
-                              num_layers=num_layers_1)
+                              num_layers=num_layers_1,
+                              dropout=dropout)
         self.gru = GRULayer(input_size=hidden_size_1*2,
                             hidden_size=hidden_size_2,
-                            num_layers=num_layers_2)
+                            num_layers=num_layers_2,
+                            dropout=dropout)
         
         self.linear = nn.Linear(dense_size_1, dense_size_2)
         self.batch_norm = torch.nn.BatchNorm1d(dense_size_2)
         self.relu = nn.ReLU()
         self.out = nn.Linear(dense_size_2, output_size)
+        self.dropout = nn.Dropout(dropout)
+
         
     def forward(self, x, features):
         h_embedding = self.embeddings(x)
@@ -146,6 +151,7 @@ class CNNModel(nn.Module):
         concat = self.linear(concat)
         concat = self.batch_norm(concat)
         concat = self.relu(concat)
+        concat = self.dropout(concat)
         out = self.out(concat)
         
         return out
