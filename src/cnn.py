@@ -73,7 +73,7 @@ def prepare_data():
         test_data_all, test_label_all, test_size=0.5, shuffle=False)
     validation_features, test_features = train_test_split(
         test_features_all, test_size=0.5, shuffle=False)
-
+    import pdb; pdb.set_trace()
     ss = StandardScaler()
     ss.fit(np.vstack((train_features, validation_features, test_features)))
     train_features = ss.transform(train_features)
