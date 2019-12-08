@@ -182,7 +182,7 @@ def fit_and_predict(load_test_data,
 		train_loss = 0
 		for my_train_data, my_train_features, my_train_labels in tqdm(train_loader, disable=True):
 			outputs = cnn_model(my_train_data, my_train_features)
-			# import pdb; pdb.set_trace()
+			import pdb; pdb.set_trace()
 			loss = criterion(outputs[:, 0], my_train_labels)
 			optimizer.zero_grad()
 			loss.backward()
@@ -223,9 +223,9 @@ def fit_and_predict(load_test_data,
 		all_predicted_label[i * batch_size: (i+1) * batch_size] = predicted_label
 
 	# import pdb; pdb.set_trace()
-	print(f'accuracy is: {accuracy_score(test_label.values, predicted_label)}')
-	print(f'f1 score is: {f1_score(test_label.values, predicted_label)}')
-	print(f'confusion_matrix score is: {confusion_matrix(test_label.values, predicted_label)}')
+	print(f'accuracy is: {accuracy_score(test_label.values, all_predicted_label)}')
+	print(f'f1 score is: {f1_score(test_label.values, all_predicted_label)}')
+	print(f'confusion_matrix score is: {confusion_matrix(test_label.values, all_predicted_label)}')
 
 	# if load_test_data:
 	#   del test_label_OR_test_data['question_text']
