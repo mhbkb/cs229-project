@@ -6,7 +6,7 @@ from utils import load_embeddings
 
 GLOVE_PATH = '../../embeddings/glove.840B.300d/glove.840B.300d.txt'
 WIKI_PATH = '../../embeddings/wiki-news-300d-1M/wiki-news-300d-1M.vec'
-GOOGLE_NEWS_PATH = '../../embeddings/GoogleNews-vetors-negative300/GoogleNews-vetors-negative300.bin'
+GOOGLE_NEWS_PATH = '../../embeddings/GoogleNews-vectors-negative300/GoogleNews-vectors-negative300.bin'
 PARAGRAM_PATH = '../../embeddings/paragram_300_sl999/paragram_300_sl999.txt'
 
 class EmbeddingLayer(nn.Module):
@@ -37,18 +37,20 @@ class EmbeddingLayer(nn.Module):
 		self.embeddings.weight.requires_grad = False
 	
 	def load_all_embeddings(self, word_index, num_words):
+		# Word cover rate in the embedding is: 0.9886104783599089
 		glove_embeddings = load_embeddings(GLOVE_PATH, word_index, num_words)
+		# Word cover rate in the embedding is: 0.36218678815489747
 		# wiki_embeddings = load_embeddings(WIKI_PATH, word_index, num_words)
-		# GOOGLE_NEWS_PATH = load_embeddings(GOOGLE_NEWS_PATH, word_index, num_words)
+		# google_new_embeddings = load_embeddings(GOOGLE_NEWS_PATH, word_index, num_words)
 		# paragram_embeddings = load_embeddings(PARAGRAM_PATH, word_index, num_words)
 
-		embedding_matrix = np.concatenate((glove_embeddings,
-										   # wiki_embeddings,
-										   # GOOGLE_NEWS_PATH,
-										   # paragram_embeddings,
-										   ), axis=1)
+		# embedding_matrix = np.concatenate((glove_embeddings,
+		# 								   # wiki_embeddings,
+		# 								   # google_new_embeddings,
+		# 								   # paragram_embeddings,
+		# 								   ), axis=1)
 
-		return torch.tensor(embedding_matrix, dtype=torch.float32)
+		return torch.tensor(glove_embeddings, dtype=torch.float32)
 
 
 class GRULayer(nn.Module):

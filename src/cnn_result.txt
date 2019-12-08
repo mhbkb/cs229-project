@@ -1,4 +1,4 @@
-Train simple RCC:
+Train simple RNN:
 
 num of words: 509040
 Num of params to train: 218113
