@@ -44,11 +44,11 @@ class EmbeddingLayer(nn.Module):
 		# google_new_embeddings = load_embeddings(GOOGLE_NEWS_PATH, word_index, num_words)
 		# paragram_embeddings = load_embeddings(PARAGRAM_PATH, word_index, num_words)
 
-		# embedding_matrix = np.concatenate((glove_embeddings,
-		# 								   # wiki_embeddings,
-		# 								   # google_new_embeddings,
-		# 								   # paragram_embeddings,
-		# 								   ), axis=1)
+		embedding_matrix = np.concatenate((glove_embeddings,
+										   wiki_embeddings,
+										   # google_new_embeddings,
+										   # paragram_embeddings,
+										   ), axis=1)
 
 		return torch.tensor(glove_embeddings, dtype=torch.float32)
 
