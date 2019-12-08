@@ -1,0 +1,70 @@
+Train simple RNN:
+
+num of words: 509040
+Num of params to train: 218113
+Num of epochs: 20
+Start epoch: 0
+My train loss is: 0.20080007654725957
+My validation loss is 0.14789229554152303
+Start epoch: 1
+My train loss is: 0.17134872156044254
+My validation loss is 0.1416828425617517
+Start epoch: 2
+My train loss is: 0.1660629252462168
+My validation loss is 0.13995793543276985
+Start epoch: 3
+My train loss is: 0.16307380778461403
+My validation loss is 0.13865133172982508
+Start epoch: 4
+My train loss is: 0.16088184362323218
+My validation loss is 0.1369141951642454
+Start epoch: 5
+My train loss is: 0.15906645500355304
+My validation loss is 0.13649047370123238
+Start epoch: 6
+My train loss is: 0.15769615555242691
+My validation loss is 0.13668653552363047
+Start epoch: 7
+My train loss is: 0.1562523454840317
+My validation loss is 0.136459403392961
+Start epoch: 8
+My train loss is: 0.15560307013339303
+My validation loss is 0.13567293824901008
+Start epoch: 9
+My train loss is: 0.15547944875299732
+My validation loss is 0.13498028458216954
+Start epoch: 10
+My train loss is: 0.1539153248785641
+My validation loss is 0.1346219620566531
+Start epoch: 11
+My train loss is: 0.1527865517523703
+My validation loss is 0.135258065572973
+Start epoch: 12
+My train loss is: 0.1521993211192578
+My validation loss is 0.13409311779576225
+Start epoch: 13
+My train loss is: 0.15182768323903068
+My validation loss is 0.133055109980488
+Start epoch: 14
+My train loss is: 0.15116604231797137
+My validation loss is 0.13392015085781905
+Start epoch: 15
+My train loss is: 0.1505796815803105
+My validation loss is 0.13376792144904265
+Start epoch: 16
+My train loss is: 0.15002518661174735
+My validation loss is 0.13317810332169516
+Start epoch: 17
+My train loss is: 0.14906199243648408
+My validation loss is 0.13323501784638128
+Start epoch: 18
+My train loss is: 0.14893216395999456
+My validation loss is 0.132531429813099
+Start epoch: 19
+My train loss is: 0.14839507346309497
+My validation loss is 0.13320234389758268
+accuracy is: 0.9474667432290171
+f1 score is: 0.3658795804260432
+confusion_matrix score is: [[243543   1567]
+ [ 12156   3959]]
+Spent 5047.235614299774 s to run <function fit_and_predict at 0x7f34c53459e0>

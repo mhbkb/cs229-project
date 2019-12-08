@@ -39,16 +39,21 @@ class EmbeddingLayer(nn.Module):
 	def load_all_embeddings(self, word_index, num_words):
 		# Word cover rate in the embedding is: 0.8724167059563099
 		glove_embeddings = load_embeddings(GLOVE_PATH, word_index, num_words)
+<<<<<<< HEAD
 		# Word cover rate in the embedding is: 0.6717114568599717
 		wiki_embeddings = load_embeddings(WIKI_PATH, word_index, num_words)
+=======
+		# Word cover rate in the embedding is: 0.36218678815489747
+		# wiki_embeddings = load_embeddings(WIKI_PATH, word_index, num_words)
+>>>>>>> parent of 1a7902f... Add one embeddings.
 		# google_new_embeddings = load_embeddings(GOOGLE_NEWS_PATH, word_index, num_words)
 		# paragram_embeddings = load_embeddings(PARAGRAM_PATH, word_index, num_words)
 
-		embedding_matrix = np.concatenate((glove_embeddings,
-										   wiki_embeddings,
-										   # google_new_embeddings,
-										   # paragram_embeddings,
-										   ), axis=1)
+		# embedding_matrix = np.concatenate((glove_embeddings,
+		# 								   # wiki_embeddings,
+		# 								   # google_new_embeddings,
+		# 								   # paragram_embeddings,
+		# 								   ), axis=1)
 
 		return torch.tensor(glove_embeddings, dtype=torch.float32)
 
