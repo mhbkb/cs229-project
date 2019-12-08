@@ -21,7 +21,7 @@ from cnn_model import *
 
 TRAIN_PATH = 'preprocess.csv'
 TEST_PATH = 'test.csv'
-dropout = 0.1
+dropout = 0.0
 
 CUDA = True if torch.cuda.is_available() else False
 
@@ -171,7 +171,8 @@ def fit_and_predict(load_test_data,
 
     # test_label_cuda = torch.tensor(test_label, dtype=torch.float).cuda() if CUDA else torch.tensor(test_label, dtype=torch.float)
 
-    optimizer = torch.optim.SGD(cnn_model.parameters(), lr=0.01)
+    adam_optimizer = torch.optim.Adam(cnn_model.parameters(), lr=0.001)
+    # optimizer = torch.optim.SGD(cnn_model.parameters(), lr=0.01)
     criterion = nn.BCEWithLogitsLoss()
 
     iter = 0
@@ -180,7 +181,7 @@ def fit_and_predict(load_test_data,
     for epoch in range(num_epochs):
         print(f'Start epoch: {epoch}')
         # https://stackoverflow.com/questions/48001598/why-do-we-need-to-call-zero-grad-in-pytorch
-        optimizer.zero_grad()
+        adam_optimizer.zero_grad()
         cnn_model.train()
 
         train_loss = 0
@@ -188,9 +189,9 @@ def fit_and_predict(load_test_data,
             outputs = cnn_model(my_train_data, my_train_features)
             # import pdb; pdb.set_trace()
             loss = criterion(outputs[:, 0], my_train_labels)
-            optimizer.zero_grad()
+            adam_optimizer.zero_grad()
             loss.backward()
-            optimizer.step()
+            adam_optimizer.step()
             train_loss += loss.item() / len(train_loader)
 
         print(f'My train loss is: {train_loss}')
