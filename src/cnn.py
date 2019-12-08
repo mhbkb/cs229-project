@@ -127,7 +127,7 @@ def fit_and_predict(load_test_data,
     # https://github.com/yunjey/pytorch-tutorial/blob/master/tutorials/02-intermediate/recurrent_neural_network/main.py
     batch_size = 100
     n_iters = 3000
-    num_epochs = 8
+    num_epochs = 20
     print(f'Num of epochs: {num_epochs}')
 
     train_data_cuda = torch.tensor(train_data, dtype=torch.long).cuda(
@@ -205,29 +205,30 @@ def fit_and_predict(load_test_data,
 
         print(f'My validation loss is {validation_loss}')
 
-    # Calculate Accuracy
-    # import pdb; pdb.set_trace()
-    # Iterate through test dataset
-    all_predicted_label = np.zeros(len(test_label.values))
-    # To avoid CUDA OOM, have to batch even for testset data.
-    for i, (my_test_data, my_test_features, _) in enumerate(test_loader):
-        outputs = cnn_model(my_test_data, my_test_features)
-        predicted = (outputs[:, 0] > 0.5).float()
+        if epoch >= 5:
+            # Calculate Accuracy
+            # import pdb; pdb.set_trace()
+            # Iterate through test dataset
+            all_predicted_label = np.zeros(len(test_label.values))
+            # To avoid CUDA OOM, have to batch even for testset data.
+            for i, (my_test_data, my_test_features, _) in enumerate(test_loader):
+                outputs = cnn_model(my_test_data, my_test_features)
+                predicted = (outputs[:, 0] > 0.5).float()
 
-        # Total number of labels
-        # total = len(test_loader)
-        # import pdb; pdb.set_trace()
-        if CUDA:
-            predicted_label = predicted.detach().cpu().numpy()
-        else:
-            predicted_label = predicted.numpy()
+                # Total number of labels
+                # total = len(test_loader)
+                # import pdb; pdb.set_trace()
+                if CUDA:
+                    predicted_label = predicted.detach().cpu().numpy()
+                else:
+                    predicted_label = predicted.numpy()
 
-        all_predicted_label[i * batch_size: (i+1) * batch_size] = predicted_label
+                all_predicted_label[i * batch_size: (i+1) * batch_size] = predicted_label
 
-    # import pdb; pdb.set_trace()
-    print(f'accuracy is: {accuracy_score(test_label.values, all_predicted_label)}')
-    print(f'f1 score is: {f1_score(test_label.values, all_predicted_label)}')
-    print(f'confusion_matrix score is: {confusion_matrix(test_label.values, all_predicted_label)}')
+            # import pdb; pdb.set_trace()
+            print(f'accuracy is: {accuracy_score(test_label.values, all_predicted_label)}')
+            print(f'f1 score is: {f1_score(test_label.values, all_predicted_label)}')
+            print(f'confusion_matrix score is: {confusion_matrix(test_label.values, all_predicted_label)}')
 
     # if load_test_data:
     #   del test_label_OR_test_data['question_text']
