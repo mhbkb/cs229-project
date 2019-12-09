@@ -16,8 +16,8 @@ from utils import timer
 tqdm.pandas()
 
 # Always run with train_small.csv to how outputs look like when modifying data pre-processing.
-TRAIN_PATH = 'train_small.csv'
-#TRAIN_PATH = 'train_shuffle1.csv'
+#TRAIN_PATH = 'train_small.csv'
+TRAIN_PATH = 'train_shuffle1.csv'
 
 # https://www.kaggle.com/c/quora-insincere-questions-classification/discussion/74518#latest-456642
 puncts=['☹', 'Ź', 'Ż', 'ἰ', 'ή', 'Š', '＞', 'ξ','ฉ', 'ั', 'น', 'จ', 'ะ', 'ท', 'ำ', 'ใ', 'ห', '้', 'ด', 'ี', 
@@ -83,6 +83,7 @@ def remove_punctuations(text):
 def init_tokenizer():
 	return RegexpTokenizer(r'\w+')
 
+cached_stopwords = stopwords.words('english')
 
 def remove_stopwords(words):
 	"""
@@ -93,7 +94,7 @@ def remove_stopwords(words):
 			```
 		in the virtual venv.
 	"""
-	return ' '.join([word for word in words if word not in stopwords.words('english')])
+	return ' '.join([word for word in words if word not in cached_stopwords])
 
 # print(remove_stopwords('I see you a monster'))
 
@@ -147,13 +148,13 @@ def load_and_clean_data(data_path=TRAIN_PATH,
 	return pd_data
 
 
-# pd_data = load_and_clean_data(output_file='preprocess_without_punctuation_{}.csv', opt_punctuation=False)
-# pd_data = load_and_clean_data(output_file='preprocess_without_tokenize_{}.csv', opt_tokenize=False)
-# pd_data = load_and_clean_data(output_file='preprocess_without_removing_stopwords_{}.csv', opt_remove_stopwords=False)
-# pd_data = load_and_clean_data(output_file='preprocess_without_stem_{}.csv', opt_stemming=False)
-# pd_data = load_and_clean_data(output_file='preprocess_just_stem_{}.csv', opt_punctuation=False, opt_tokenize=False, opt_remove_stopwords=False)
-# pd_data = load_and_clean_data(output_file='preprocess_tokenize_and_stem_{}.csv', opt_punctuation=False, opt_remove_stopwords=False)
-# pd_data = load_and_clean_data()
+#pd_data = load_and_clean_data(output_file='preprocess_without_punctuation_new_{}.csv', opt_punctuation=False)
+#pd_data = load_and_clean_data(output_file='preprocess_without_tokenize_new_{}.csv', opt_tokenize=False)
+#pd_data = load_and_clean_data(output_file='preprocess_without_removing_stopwords_new_{}.csv', opt_remove_stopwords=False)
+#pd_data = load_and_clean_data(output_file='preprocess_without_stem_{}.csv', opt_stemming=False)
+#pd_data = load_and_clean_data(output_file='preprocess_just_stem_new_{}.csv', opt_punctuation=False, opt_tokenize=False, opt_remove_stopwords=False)
+#pd_data = load_and_clean_data(output_file='preprocess_tokenize_and_stem_new_{}.csv', opt_punctuation=False, opt_remove_stopwords=False)
+#pd_data = load_and_clean_data(output_file='preprocess_all_new_{}')
 
 #print("just punctuation")
 #load_and_clean_data(output_file='preprocess_only_punctuation_{}.csv', opt_punctuation=True, opt_tokenize=False, opt_remove_stopwords=False, opt_stemming=False)
