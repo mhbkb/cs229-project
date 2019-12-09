@@ -21,7 +21,7 @@ from cnn_model import *
 
 TRAIN_PATH = 'preprocess.csv'
 TEST_PATH = 'test.csv'
-dropout = 0.0
+dropout = 0.2
 
 CUDA = True if torch.cuda.is_available() else False
 
