@@ -16,7 +16,7 @@ from tqdm import tqdm
 
 # Internal import
 from data_pre_processing import load_data
-from utils import timer
+from utils import timer, search_for_threshold
 from cnn_model import *
 
 TRAIN_PATH = 'preprocess.csv'
@@ -128,7 +128,7 @@ def fit_and_predict(load_test_data,
     # https://www.deeplearningwizard.com/deep_learning/practical_pytorch/pytorch_lstm_neuralnetwork/
     # https://github.com/yunjey/pytorch-tutorial/blob/master/tutorials/02-intermediate/recurrent_neural_network/main.py
     batch_size = 256
-    test_bath_size = 1024
+    test_batch_size = 1024
     n_iters = 3000
     num_epochs = 20
     print(f'Num of epochs: {num_epochs}')
@@ -167,7 +167,7 @@ def fit_and_predict(load_test_data,
     test = torch.utils.data.TensorDataset(
         test_data_cuda, test_features_cuda, test_label_cuda)
     test_loader = torch.utils.data.DataLoader(
-        test, batch_size=test_bath_size, shuffle=False)
+        test, batch_size=test_batch_size, shuffle=False)
 
     # test_label_cuda = torch.tensor(test_label, dtype=torch.float).cuda() if CUDA else torch.tensor(test_label, dtype=torch.float)
 
@@ -199,14 +199,23 @@ def fit_and_predict(load_test_data,
         cnn_model.eval()
         validation_loss = 0
         validation_outputs = np.zeros(len(validation_data))
+        all_validation_label = np.zeros(len(validation_label.values))
 
         for i, (my_validation_data, my_validation_features, my_validation_labels) in enumerate(validation_loader):
-            validation_outputs = cnn_model(
-                my_validation_data, my_validation_features)
+            validation_outputs = cnn_model(my_validation_data, my_validation_features)
 
             my_loss = criterion(validation_outputs[:, 0], my_validation_labels)
             validation_loss += my_loss.item() / len(validation_loader)
+            # import pdb; pdb.set_trace()
 
+            if CUDA:
+                predicted_validation = validation_outputs[:, 0].detach().cpu().numpy()
+            else:
+                predicted_validation = validation_outputs[:, 0].detach().numpy()
+
+            all_validation_label[i * batch_size: (i+1) * batch_size] = predicted_validation
+
+        threshold = search_for_threshold(all_validation_label, validation_label.values) 
         print(f'My validation loss is {validation_loss}')
 
         if epoch >= 5:
@@ -217,7 +226,7 @@ def fit_and_predict(load_test_data,
             # To avoid CUDA OOM, have to batch even for testset data.
             for i, (my_test_data, my_test_features, _) in enumerate(test_loader):
                 outputs = cnn_model(my_test_data, my_test_features)
-                predicted = (outputs[:, 0] > 0.5).float()
+                predicted = (outputs[:, 0] > threshold).float()
 
                 # Total number of labels
                 # total = len(test_loader)
@@ -227,7 +236,7 @@ def fit_and_predict(load_test_data,
                 else:
                     predicted_label = predicted.numpy()
 
-                all_predicted_label[i * test_bath_size: (i+1) * test_bath_size] = predicted_label
+                all_predicted_label[i * test_batch_size: (i+1) * test_batch_size] = predicted_label
 
             # import pdb; pdb.set_trace()
             print(

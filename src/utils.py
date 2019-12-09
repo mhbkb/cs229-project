@@ -2,7 +2,7 @@ import time
 
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.metrics import roc_auc_score, roc_curve
+from sklearn.metrics import roc_auc_score, roc_curve, f1_score
 from tqdm import tqdm
 
 def plt_roc(label, prediction):
@@ -55,3 +55,22 @@ def load_embeddings(file_path, word_index, num_words):
 
     print(f'Word cover rate in the embedding is: {1 - (word_not_fit / num_words)}')
     return embedding_matrix
+
+
+def search_for_threshold(predicted, label):
+    # https://arxiv.org/pdf/1402.1892.pdf
+    # https://www.kaggle.com/c/quora-insincere-questions-classification/discussion/71241
+    threshold = 0
+    curr_f1 = 0
+    max_f1 = 0
+    max_threshold = 0
+
+    for threshold in np.arange(0.1, 0.501, 0.01):
+        curr_f1 = f1_score(label, np.array(predicted) > threshold)
+        if curr_f1 > max_f1:
+            max_threshold = threshold
+            max_f1 = curr_f1
+
+    print(f'Searched the threshold: {threshold}, the max f1 score is {max_f1}')
+
+    return max_threshold
