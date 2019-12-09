@@ -46,12 +46,12 @@ class EmbeddingLayer(nn.Module):
         # Word cover rate in the embedding is: 0.8724167059563099
         glove_embeddings = load_embeddings(GLOVE_PATH, word_index, num_words)
         # Word cover rate in the embedding is: 0.6717114568599717
-        # wiki_embeddings = load_embeddings(WIKI_PATH, word_index, num_words)
+        wiki_embeddings = load_embeddings(WIKI_PATH, word_index, num_words)
         # google_new_embeddings = load_embeddings(GOOGLE_NEWS_PATH, word_index, num_words)
         # paragram_embeddings = load_embeddings(PARAGRAM_PATH, word_index, num_words)
 
         embedding_matrix = np.concatenate((glove_embeddings,
-                                           # wiki_embeddings,
+                                           wiki_embeddings,
                                            # google_new_embeddings,
                                            # paragram_embeddings,
                                            ), axis=1)
