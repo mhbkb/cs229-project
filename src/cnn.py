@@ -15,13 +15,13 @@ from sklearn.preprocessing import StandardScaler
 from tqdm import tqdm
 
 # Internal import
-from data_pre_processing import load_data
+from data_pre_processing import load_data, remove_punctuations
 from utils import timer, search_for_threshold
 from cnn_model import *
 
 TRAIN_PATH = 'preprocess.csv'
 TEST_PATH = 'test.csv'
-dropout = 0.1
+dropout = 0.0
 
 CUDA = True if torch.cuda.is_available() else False
 
@@ -62,6 +62,9 @@ def add_features(pd):
 def prepare_data():
     pd_data = get_data()
     add_features(pd_data)
+
+    pd_data['question_text'] = pd_data['question_text'].apply(lambda x: remove_punctuations(x))
+
     train_data, test_data_all, train_label, test_label_all = train_test_split(
         pd_data['question_text'], pd_data['target'], test_size=0.4, shuffle=False)
 
