@@ -1,0 +1,12 @@
+INFO:root:***** Eval results *****
+INFO:root:  task = quora
+INFO:root:  mcc = 0.30384268077020316
+INFO:root:  tp = 10
+INFO:root:  tn = 930
+INFO:root:  fp = 5
+INFO:root:  fn = 54
+INFO:root:  eval_loss = 0.15211055232584478
+HBox(children=(FloatProgress(value=0.0, max=999.0), HTML(value='')))
+Load pre-trained model (weights)
+HBox(children=(FloatProgress(value=0.0, description='Evaluating', max=125.0, style=ProgressStyl
+e(description_width='initial')), HTML(value='')))
