@@ -1,0 +1,66 @@
+maml.exe TrainTest test=C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\test_20.csv tr=AveragedPerceptron{iter=100} loader=TextLoader{sep=, col=qid:TX:0 col=question_text:TX:1 col=target:R4:2 header=+} data=C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv xf=CopyColumns{col=Label:target} xf=CopyColumns{col=Name:qid} xf=TextTransform{col=FeaturesTextBiTri:question_text wordExtractor=NGramExtractorTransform{ngram=2} charExtractor=NGramExtractorTransform{ngram=3}} xf=Concat{col=Features:FeaturesTextBiTri}
+[1] 'Building term dictionary' started.
+...
+.
+.
+Processed 783680 rows with 0 bad values and 5 format errors
+[1] (00:03.12)	783680 examples	Total Terms: 149025
+[1] 'Building term dictionary' finished in 00:00:03.1219859.
+[2] 'Building n-gram dictionary' started.
+.....
+..
+..
+.
+Processed 783680 rows with 0 bad values and 5 format errors
+[2] (00:06.87)	783680 documents	Total n-grams: 2240031
+[2] 'Building n-gram dictionary' finished in 00:00:06.8739684.
+[3] 'Building n-gram dictionary #2' started.
+.
+............
+...
+.....
+..
+Processed 783680 rows with 0 bad values and 5 format errors
+Not adding a normalizer.
+[3] (00:14.51)	783680 documents	Total n-grams: 36175
+[3] 'Building n-gram dictionary #2' finished in 00:00:14.5075567.
+Processed 783680 rows with 0 bad values and 5 format errors
+.....
+Training calibrator.
+[4] 'Saving model' started.
+............
+[4] 'Saving model' finished in 00:00:07.7809692.
+Processed 261229 rows with 0 bad values and 1 format errors
+TEST POSITIVE RATIO:	0.0617 (16115.0/(16115.0+245114.0))
+Confusion table
+          ||======================
+PREDICTED || positive | negative | Recall
+TRUTH     ||======================
+ positive ||    8,616 |    7,499 | 0.5347
+ negative ||    4,566 |  240,548 | 0.9814
+          ||======================
+Precision ||   0.6536 |   0.9698 |
+OVERALL 0/1 ACCURACY: 0.953814
+LOG LOSS/instance:  Infinity
+Test-set entropy (prior Log-Loss/instance): 0.334114
+LOG-LOSS REDUCTION (RIG): -Infinity
+AUC:                0.945941
+
+OVERALL RESULTS
+---------------------------------------
+AUC:                0.945941 (0.0000)
+Accuracy:           0.953814 (0.0000)
+Positive precision: 0.653619 (0.0000)
+Positive recall:    0.534657 (0.0000)
+Negative precision: 0.969768 (0.0000)
+Negative recall:    0.981372 (0.0000)
+Log-loss:           Infinity (0.0000)
+Log-loss reduction: -Infinity (0.0000)
+F1 Score:           0.588183 (0.0000)
+AUPRC:              0.613200 (0.0000)
+
+---------------------------------------
+Physical memory usage(MB): 1944
+Virtual memory usage(MB): 6670
+12/14/2019 2:38:51 AM	 Time elapsed(s): 164
+

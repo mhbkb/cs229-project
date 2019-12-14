@@ -1,0 +1,16 @@
+#@ TextLoader{
+#@   header+
+#@   sep=tab
+#@   col=AUC:R8:0
+#@   col=Accuracy:R8:1
+#@   col={name={Positive precision} type=R8 src=2}
+#@   col={name={Positive recall} type=R8 src=3}
+#@   col={name={Negative precision} type=R8 src=4}
+#@   col={name={Negative recall} type=R8 src=5}
+#@   col=Log-loss:R8:6
+#@   col={name={Log-loss reduction} type=R8 src=7}
+#@   col={name={F1 Score} type=R8 src=8}
+#@   col=AUPRC:R8:9
+#@ }
+AUC	Accuracy	Positive precision	Positive recall	Negative precision	Negative recall	Log-loss	Log-loss reduction	F1 Score	AUPRC
+0.95521448046902313	0.95670465377121228	0.67893051314515529	0.56568414520632948	0.97175567590253509	0.98241226531328285	0.21594697023867834	35.367300615127377	0.61715523661228078	0.65001331248965932

@@ -1,0 +1,21 @@
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(65401,22)-(65401,95): Bad dimensionality or ambiguous sparse item. Use sparse=- for non-sparse file, and/or quote the value.
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(477076,22)-(477076,73): Illegal quoting
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(477078,2)-(477078,5): Illegal quoting
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(574937,22)-(574937,54): Bad dimensionality or ambiguous sparse item. Use sparse=- for non-sparse file, and/or quote the value.
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(712955,22)-(712955,59): Illegal quoting
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(65401,22)-(65401,95): Bad dimensionality or ambiguous sparse item. Use sparse=- for non-sparse file, and/or quote the value.
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(477076,22)-(477076,73): Illegal quoting
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(477078,2)-(477078,5): Illegal quoting
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(574937,22)-(574937,54): Bad dimensionality or ambiguous sparse item. Use sparse=- for non-sparse file, and/or quote the value.
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(712955,22)-(712955,59): Illegal quoting
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(65401,22)-(65401,95): Bad dimensionality or ambiguous sparse item. Use sparse=- for non-sparse file, and/or quote the value.
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(477076,22)-(477076,73): Illegal quoting
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(477078,2)-(477078,5): Illegal quoting
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(574937,22)-(574937,54): Bad dimensionality or ambiguous sparse item. Use sparse=- for non-sparse file, and/or quote the value.
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(712955,22)-(712955,59): Illegal quoting
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(65401,22)-(65401,95): Bad dimensionality or ambiguous sparse item. Use sparse=- for non-sparse file, and/or quote the value.
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(477076,22)-(477076,73): Illegal quoting
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(477078,2)-(477078,5): Illegal quoting
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(574937,22)-(574937,54): Bad dimensionality or ambiguous sparse item. Use sparse=- for non-sparse file, and/or quote the value.
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv(712955,22)-(712955,59): Illegal quoting
+Warning: Format error at C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\test_20.csv(121534,22)-(121534,78): Bad dimensionality or ambiguous sparse item. Use sparse=- for non-sparse file, and/or quote the value.

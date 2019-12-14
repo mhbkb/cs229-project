@@ -1,0 +1,86 @@
+=====================================================================================
+Executing: TrainTest{test=C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\test_20.csv valid=C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\val_20.csv data=C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv  loader=TextLoader{sep=, col=qid:TX:0 col=question_text:TX:1 col=target:R4:2 header=+} xf=CopyColumns{col=Label:target} xf=CopyColumns{col=Name:qid} xf=TextTransform{col=FeaturesTextBiTri:question_text wordExtractor=NGramExtractorTransform{ngram=2} charExtractor=NGramExtractorTransform{ngram=3}} xf=Concat{col=Features:FeaturesTextBiTri} tr=AveragedPerceptron {iter=10} out={C:\Users\rekumar\cs229-project-ml\cs229-project\averaged_perceptron\trained_models\0.model.zip} sf={C:\Users\rekumar\cs229-project-ml\cs229-project\averaged_perceptron\0.summary.txt} dout={C:\Users\rekumar\cs229-project-ml\cs229-project\averaged_perceptron\0.inst.txt}}
+=====================================================================================
+maml.exe TrainTest test=C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\test_20.csv tr=AveragedPerceptron{iter=10} sf=C:\Users\rekumar\cs229-project-ml\cs229-project\averaged_perceptron\0.summary.txt valid=C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\val_20.csv dout=C:\Users\rekumar\cs229-project-ml\cs229-project\averaged_perceptron\0.inst.txt loader=TextLoader{sep=, col=qid:TX:0 col=question_text:TX:1 col=target:R4:2 header=+} data=C:\Users\rekumar\cs229-project-ml\cs229-project\bert\data\train_60.csv out=C:\Users\rekumar\cs229-project-ml\cs229-project\averaged_perceptron\trained_models\0.model.zip xf=CopyColumns{col=Label:target} xf=CopyColumns{col=Name:qid} xf=TextTransform{col=FeaturesTextBiTri:question_text wordExtractor=NGramExtractorTransform{ngram=2} charExtractor=NGramExtractorTransform{ngram=3}} xf=Concat{col=Features:FeaturesTextBiTri}
+[1] 'Building term dictionary' started.
+......
+.
+..
+.
+Processed 783680 rows with 0 bad values and 5 format errors
+[1] (00:07.04)	783680 examples	Total Terms: 149025
+[1] 'Building term dictionary' finished in 00:00:07.0362590.
+[2] 'Building n-gram dictionary' started.
+.
+..........
+..
+....
+.
+Processed 783680 rows with 0 bad values and 5 format errors
+[2] (00:11.36)	783680 documents	Total n-grams: 2240031
+[2] 'Building n-gram dictionary' finished in 00:00:11.3640256.
+[3] 'Building n-gram dictionary #2' started.
+.....
+..............................
+.........
+.......
+......
+Processed 783680 rows with 0 bad values and 5 format errors
+Not adding a normalizer.
+[3] (00:34.44)	783680 documents	Total n-grams: 36175
+[3] 'Building n-gram dictionary #2' finished in 00:00:34.4445116.
+Processed 783680 rows with 0 bad values and 5 format errors
+
+Training calibrator.
+[4] 'Saving model' started.
+......................
+[4] 'Saving model' finished in 00:00:14.3425558.
+Processed 261229 rows with 0 bad values and 1 format errors
+TEST POSITIVE RATIO:	0.0617 (16115.0/(16115.0+245114.0))
+Confusion table
+          ||======================
+PREDICTED || positive | negative | Recall
+TRUTH     ||======================
+ positive ||    9,485 |    6,630 | 0.5886
+ negative ||    4,498 |  240,616 | 0.9816
+          ||======================
+Precision ||   0.6783 |   0.9732 |
+OVERALL 0/1 ACCURACY: 0.957401
+LOG LOSS/instance:  0.179939
+Test-set entropy (prior Log-Loss/instance): 0.334114
+LOG-LOSS REDUCTION (RIG): 46.144350
+AUC:                0.956880
+
+OVERALL RESULTS
+---------------------------------------
+AUC:                0.956880 (0.0000)
+Accuracy:           0.957401 (0.0000)
+Positive precision: 0.678324 (0.0000)
+Positive recall:    0.588582 (0.0000)
+Negative precision: 0.973185 (0.0000)
+Negative recall:    0.981649 (0.0000)
+Log-loss:           0.179939 (0.0000)
+Log-loss reduction: 46.144350 (0.0000)
+F1 Score:           0.630274 (0.0000)
+AUPRC:              0.662437 (0.0000)
+
+---------------------------------------
+Processed 261229 rows with 0 bad values and 1 format errors
+Physical memory usage(MB): 1452
+Virtual memory usage(MB): 6120
+12/12/2019 4:32:27 AM	 Time elapsed(s): 149
+
+ 
+=====================================================================================
+Executing: SaveModel{code={C:\Users\rekumar\cs229-project-ml\cs229-project\averaged_perceptron\trained_models\0.model.cs} sum={C:\Users\rekumar\cs229-project-ml\cs229-project\averaged_perceptron\trained_models\0.model.summary.txt} in={C:\Users\rekumar\cs229-project-ml\cs229-project\averaged_perceptron\trained_models\0.model.zip}}
+=====================================================================================
+Saving predictor summary
+Saving predictor as code
+ 
+=====================================================================================
+Executing: saveonnx{idrop=Label odrop=Features domain=ONNX onnx={C:\Users\rekumar\cs229-project-ml\cs229-project\averaged_perceptron\trained_models\0.model.pb} json={C:\Users\rekumar\cs229-project-ml\cs229-project\averaged_perceptron\trained_models\0.model.json} in={C:\Users\rekumar\cs229-project-ml\cs229-project\averaged_perceptron\trained_models\0.model.zip}}
+=====================================================================================
+ 
+=====================================================================================
+Executed 3 commands in 00:02:54.4942166
+=====================================================================================
