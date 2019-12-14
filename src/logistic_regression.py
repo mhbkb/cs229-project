@@ -2,9 +2,10 @@
 import os
 
 # External import
+import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, roc_auc_score, roc_curve
+from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, roc_auc_score, roc_curve, log_loss, recall_score, precision_score
 from sklearn.model_selection import train_test_split
 
 # Internal import
@@ -115,8 +116,17 @@ from utils import plt_roc
 #f1 score is: 0.5402847106674062
 #confusion_matrix score is: [[241486   3624]
 #[  8809   7306]]
+#With bound of 0.26 and 60% train:
+#accuracy is: 0.9462991673844388
+#f1 score is: 0.5923515052888527
+#confusion_matrix score is: [[237005   8105]
+#[  5923  10192]]
+#True negatives:  237005
+#False negatives:  5923
+#True positives:  10192
+#False positives:  8105
 
-#TRAIN_PATH = 'preprocess_tokenize_and_stem_new.csv'
+TRAIN_PATH = 'preprocess_tokenize_and_stem_new.csv'
 #Kaggle test score: 0.54874
 #Best regularization factor:  30
 #With 80% train:
@@ -129,6 +139,18 @@ from utils import plt_roc
 #f1 score is: 0.5458910433979686
 #confusion_matrix score is: [[241540   3570]
 #[  8725   7390]]
+#With bound 0.26 and 60%
+#accuracy is: 0.9474858838166331
+#f1 score is: 0.6033655236222749
+#confusion_matrix score is: [[237073   8037]
+#[  5681  10434]]
+#True negatives:  237073
+#False negatives:  5681
+#True positives:  10434
+#False positives:  8037
+#Precision:  0.6742700729927007
+#Recall:  0.4585789636984176
+#Kaggle new test score: 0.59991
 
 #TRAIN_PATH = 'preprocess_without_punctuation_new.csv'
 #Best regularization factor:  30
@@ -169,7 +191,7 @@ from utils import plt_roc
 #confusion_matrix score is: [[241455   3655]
 #[  9022   7093]]
 
-TEST_PATH = 'test.csv'
+TEST_PATH = 'train_small.csv'
 
 
 def prepare_data(load_test_data=False):
@@ -193,8 +215,9 @@ def fit_and_predict(load_test_data,
 					train_label, 
 					test_label_OR_test_data,
 					if_plt_roc):
-	C = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30, 100]
-	best_C = 1
+	#C = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30, 100]
+	C = []
+	best_C = 30
 	best_f1 = 0
 	train_x, valid_x, train_y, valid_y = train_test_split(train_data, train_label, test_size=0.25, shuffle=False)
 	if not load_test_data:
@@ -212,20 +235,43 @@ def fit_and_predict(load_test_data,
 	model = LogisticRegression(solver='liblinear', penalty='l2', C=best_C)
 	model.fit(train_data, train_label)
 	prediction80 = model.predict(test_feature_matrics)
+	print(prediction80[:10])
 
 	model = LogisticRegression(solver='liblinear', penalty='l2', C=best_C)
 	model.fit(train_x, train_y)
-	prediction60 = model.predict(test_feature_matrics)
+	#bounds = np.arange(0.2,0.8,0.02)
+	bounds = []
+	best_bound = 0.26
+	best_f1 = 0
+	if not load_test_data:
+		for b in bounds:
+			test_predict = model.predict_proba(valid_x)[:,1]
+			test_predict = np.where(test_predict>b, 1, 0)
+			f1 = f1_score(valid_y, test_predict)
+			print("Boundary: ", b)
+			print("F1 score: ", f1)
+			if f1 > best_f1:
+				best_f1 = f1
+				best_bound = b
+		print("#Best bound: ", best_bound)
+		print("#Best F1 score: ", best_f1)
+	prediction60 = model.predict_proba(test_feature_matrics)[:,1]
+	prediction60 = np.where(prediction60>best_bound, 1, 0)
+	
+	prediction_train = model.predict_proba(train_x)[:,1]
+	prediction_train = np.where(prediction_train>best_bound, 1, 0)
+	print('#training loss ', log_loss(train_y, model.predict_proba(train_x)))
 	if load_test_data:
 		del test_label_OR_test_data['question_text']
 		# import pdb; pdb.set_trace()
 		test_label_OR_test_data.insert(1, 'prediction', prediction80)
 		test_label_OR_test_data.to_csv('submission.csv', index=False)
-		return prediction
+		return prediction80
 	else:
 		if if_plt_roc:
 			plt_roc(test_label_OR_test_data, prediction)
 
+		print('#test loss ', log_loss(test_label_OR_test_data, model.predict_proba(test_feature_matrics)))
 		print("#With 80% train:")
 		print(f'#accuracy is: {accuracy_score(test_label_OR_test_data, prediction80)}')
 		print(f'#f1 score is: {f1_score(test_label_OR_test_data, prediction80)}')
@@ -233,12 +279,18 @@ def fit_and_predict(load_test_data,
 		print("#With 60% train:")
 		print(f'#accuracy is: {accuracy_score(test_label_OR_test_data, prediction60)}')
 		print(f'#f1 score is: {f1_score(test_label_OR_test_data, prediction60)}')
+		confusion60= confusion_matrix(test_label_OR_test_data, prediction60)
 		print(f'#confusion_matrix score is: {confusion_matrix(test_label_OR_test_data, prediction60)}')
-
+		print('#True negatives: ', confusion60[0,0])
+		print('#False negatives: ', confusion60[1,0])
+		print('#True positives: ', confusion60[1,1])
+		print('#False positives: ', confusion60[0,1])
+		print('#Precision: ', precision_score(test_label_OR_test_data, prediction60))
+		print('#Recall: ', recall_score(test_label_OR_test_data, prediction60))
 
 if __name__ == "__main__":
 	load_test_data = False
 	print("hello there")
 	train_data, test_data, train_label, test_label = prepare_data(load_test_data)
-	fit_and_predict(load_test_data, train_data, test_data, train_label, test_label, if_plt_roc=True)
+	fit_and_predict(load_test_data, train_data, test_data, train_label, test_label, if_plt_roc=False)
 
