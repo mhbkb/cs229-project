@@ -271,8 +271,8 @@ if __name__ ==  '__main__':
     with Pool(process_count) as p:
         train_features = list(tqdm_notebook(p.imap(convert_examples_to_features.convert_example_to_feature, train_examples_for_processing), total=train_examples_len))
 # In[ ]:
-with open(DATA_DIR + "train_features.pkl", "wb") as f:
-    pickle.dump(train_features, f)
+# with open(DATA_DIR + "train_features.pkl", "wb") as f:
+#     pickle.dump(train_features, f)
 	
 print('Fine tuning bert')
 # Load pre-trained model (weights)
